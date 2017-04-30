@@ -45,7 +45,7 @@ def load_files(app):
             e.current_file = f
             raise e
 
-        file_id = _auto_id(f)
+        file_id = f.replace(content_dir + '/', '', 1).lstrip('/')
         items = [_prase_news_item(item) for item in meta.pop('items', [])]
         file_data.update({
             file_id: {
@@ -73,12 +73,6 @@ def load_keys(file_data):
 
 
 # helpers
-def _auto_id(file_path):
-    content_dir = current_app.config.get('CONTENT_DIR')
-    page_id = file_path.replace(content_dir + '/', '', 1).lstrip('/')
-    return page_id
-
-
 def _prase_news_item(item):
         return {
             'title': item.get('title', u''),
