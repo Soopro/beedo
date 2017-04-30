@@ -5,7 +5,7 @@ import time
 import HTMLParser
 
 
-class WxResponse(object):
+class WxResponseTmpl(object):
     def __init__(self, to_user, from_user):
         self.to_user = to_user
         self.from_user = from_user
@@ -15,7 +15,7 @@ class WxResponse(object):
         return ''
 
 
-class WxTextResponse(WxResponse):
+class WxTextResponseTmpl(WxResponseTmpl):
     tmpl = u'''
     <xml>
     <ToUserName><![CDATA[%s]]></ToUserName>
@@ -27,7 +27,7 @@ class WxTextResponse(WxResponse):
     '''
 
     def __init__(self, to_user, from_user, content, json_mode=False):
-        super(WxTextResponse, self).__init__(to_user, from_user)
+        super(WxTextResponseTmpl, self).__init__(to_user, from_user)
 
         self.json_mode = json_mode
         self.content = content or u''
@@ -50,7 +50,7 @@ class WxTextResponse(WxResponse):
         return result
 
 
-class WxNewsResponse(WxResponse):
+class WxNewsResponseTmpl(WxResponseTmpl):
 
     MAX_ITEMS = 8
 
@@ -74,7 +74,7 @@ class WxNewsResponse(WxResponse):
     </item>'''
 
     def __init__(self, to_user, from_user, items, json_mode=False):
-        super(WxNewsResponse, self).__init__(to_user, from_user)
+        super(WxNewsResponseTmpl, self).__init__(to_user, from_user)
 
         self.json_mode = json_mode
 
