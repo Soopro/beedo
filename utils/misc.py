@@ -8,6 +8,8 @@ from functools import cmp_to_key
 import re
 import time
 import hashlib
+import urllib
+import urlparse
 import hmac
 
 
@@ -47,6 +49,55 @@ def now(dig=10):
         return int(time.time() * 1000000)
     else:
         return time.time()
+
+
+def get_url_params(url, unique=True):
+    url_parts = list(urlparse.urlparse(url))
+    url_params = urlparse.parse_qsl(url_parts[4])
+    if unique:
+        params = dict(url_params)
+    else:
+        params = {}
+        for param in url_params:
+            k = param[0]
+            v = param[1]
+            if k in params:
+                if not isinstance(params[k], list):
+                    params[k] = [params[k]]
+                params[k].append(v)
+            else:
+                params[k] = v
+    return params
+
+
+def add_url_params(url, new_params, concat=True, unique=True):
+    def _dict2params(param_dict):
+        out_params = []
+        for k, v in param_dict.iteritems():
+            if isinstance(v, list):
+                for i in v:
+                    out_params.append((k, i))
+            else:
+                out_params.append((k, v))
+        return out_params
+
+    if isinstance(new_params, dict):
+        new_params = _dict2params(new_params)
+    elif isinstance(new_params, basestring):
+        new_params = [(new_params, new_params)]
+    elif not isinstance(new_params, list):
+        return None
+
+    url_parts = list(urlparse.urlparse(url))
+    params = urlparse.parse_qsl(url_parts[4])
+    params = new_params if not concat else params + new_params
+
+    if unique:
+        params = dict(params)
+
+    url_parts[4] = urllib.urlencode(params)
+
+    return urlparse.urlunparse(url_parts)
 
 
 def remove_multi_space(text):

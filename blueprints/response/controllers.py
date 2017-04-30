@@ -14,8 +14,7 @@ def check(token):
     wx_token = current_app.config['TOKEN']
     if not wx_request_validate(wx_token) or wx_token != token:
         return 'error'
-    echostr = request.args.get('echostr', '')
-    return echostr
+    return request.args.get('echostr', '')
 
 
 def receive(token):
@@ -62,7 +61,7 @@ def receive(token):
 
     # find response
     response = get_response(trigger)
-
+    print response
     # first round find response contents
     response_msg = _make_response_msg(response, msg, trigger)
 

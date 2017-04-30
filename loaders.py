@@ -1,8 +1,6 @@
 # coding=utf8
 from __future__ import absolute_import
 
-from flask import current_app
-
 import os
 import yaml
 
@@ -49,7 +47,7 @@ def load_files(app):
             e.current_file = f
             raise e
 
-        file_id = f.replace(content_dir + '/', '', 1).lstrip('/')
+        file_id = f.replace(content_dir + '/', '', 1).strip('/')
         items = [_prase_news_item(item) for item in meta.pop('items', [])]
         file_data.update({
             file_id: {
@@ -60,7 +58,7 @@ def load_files(app):
             }
         })
 
-    print '---------------- Data Loaded ----------------'
+    print '<-- Data Loaded -->'
 
     return file_data
 
@@ -76,7 +74,7 @@ def load_keys(file_data):
                 continue
             print '-->', key
             keys_data.update({key: k})
-    print '---------------- Keywords Loaded ----------------'
+    print '<-- Keywords Loaded -->'
     return keys_data
 
 

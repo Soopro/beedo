@@ -17,12 +17,20 @@ def wx_request_validate(token):
     return _check_signature(signature, token, timestamp, nonce)
 
 
+def wx_make_signature(token, timestamp, nonce):
+    return _make_signature(token, timestamp, nonce)
+
+
 def _check_signature(signature, token, timestamp, nonce):
+    return _make_signature(token, timestamp, nonce) == signature
+
+
+def _make_signature(token, timestamp, nonce):
     ln = [token, timestamp, nonce]
     ln = sorted(ln)
     base = ''.join(ln)
     signed = hashlib.sha1(base)
-    return signed.hexdigest() == signature
+    return signed.hexdigest()
 
 
 def wx_parse_xml(body):
