@@ -9,7 +9,7 @@ PORT = 6002
 CONTENT_DIR = 'content'
 
 # WX config
-WX_TOKEN = u'token'
+TOKEN = u'token'
 """
 The interface url will be:
 <your-domain-url>/interface/<token>

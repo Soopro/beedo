@@ -1,3 +1,8 @@
+Keys:
+- 'fucks'
+- 'fuckoff'
+- 'fuck me'
+
 Text: ''
 Items:
 - title: Hahahahhaa

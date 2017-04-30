@@ -36,6 +36,10 @@ def load_files(app):
 
     file_data = {}
     for f in all_files:
+        relative_path = f.split(content_dir + '/', 1)[1]
+        if relative_path.startswith('_'):
+            print '***', f
+            continue
         print '-->', f
         with open(f, 'r') as fh:
             meta_string = fh.read().decode('utf-8')
@@ -56,6 +60,8 @@ def load_files(app):
             }
         })
 
+    print '---------------- Data Loaded ----------------'
+
     return file_data
 
 
@@ -68,7 +74,9 @@ def load_keys(file_data):
                 print key, ': ', keys_data.get(key)
                 print '<---------------------'
                 continue
+            print '-->', key
             keys_data.update({key: k})
+    print '---------------- Keywords Loaded ----------------'
     return keys_data
 
 

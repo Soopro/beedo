@@ -40,10 +40,6 @@ DATA['keys'] = load_keys(DATA['files'])
 
 @app.before_request
 def app_before_request():
-    if app.debug:
-        DATA['files'] = load_files(current_app)
-        DATA['keys'] = load_keys(DATA['files'])
-
     g.keys = DATA['keys']
     g.files = DATA['files']
 
@@ -53,11 +49,7 @@ if __name__ == '__main__':
     port = app.config.get('PORT')
 
     print "-------------------------------------------------------"
-    print 'Pyco: {}'.format(app.version)
+    print 'Beedo: {}'.format(app.version)
     print "-------------------------------------------------------"
-
-    if app.debug:
-        print('Pyco is running in DEBUG mode !!!')
-        print('Jinja2 template folder is about to reload.')
 
     app.run(host=host, port=port, debug=True, threaded=True)
