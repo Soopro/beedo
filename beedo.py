@@ -6,10 +6,7 @@ import os
 from flask import Flask, current_app, request, g
 from flask.json import JSONEncoder
 
-from utils.request import get_remote_addr, get_request_url
-
 from loaders import load_config, load_files, load_keys
-from analyzer import SimpleAnalyzer
 from blueprints import register_blueprints
 
 
@@ -49,9 +46,6 @@ def app_before_request():
 
     g.keys = DATA['keys']
     g.files = DATA['files']
-
-    g.request_remote_addr = get_remote_addr()
-    g.request_path = request.path
 
 
 if __name__ == '__main__':

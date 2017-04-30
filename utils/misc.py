@@ -9,8 +9,15 @@ import re
 import time
 import hashlib
 import hmac
-import urllib
-import urlparse
+
+
+def route_inject(app_or_blueprint, url_patterns):
+    for pattern in url_patterns:
+        options = pattern[3] if len(pattern) > 3 else {}
+        app_or_blueprint.add_url_rule(pattern[0],
+                                      view_func=pattern[1],
+                                      methods=pattern[2].split(),
+                                      **options)
 
 
 def process_slug(value, ensure=True):
