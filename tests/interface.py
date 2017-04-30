@@ -62,4 +62,32 @@ class InterfaceTester(BasicTester):
         resp = self.client.post(url, data=post_xml)
         self.assertEqual(resp.status_code, 200)
         self.assertNotEqual(resp.data, 'error')
+        print 'default ---->'
+        print resp.data
+
+    def test_receive_a_key(self):
+        params = {
+            'signature': self.signature(self.token,
+                                        self.timestamp,
+                                        self.nonce),
+            'timestamp': self.timestamp,
+            'nonce': self.nonce,
+            'echostr': u'test-check',
+        }
+        post_xml = '''
+        <xml>
+        <ToUserName><![CDATA[toUser]]></ToUserName>
+        <FromUserName><![CDATA[fromUser]]></FromUserName>
+        <CreateTime>1348831860</CreateTime>
+        <MsgType><![CDATA[text]]></MsgType>
+        <Content><![CDATA[fuck]]></Content>
+        <MsgId>1234567890123456</MsgId>
+        </xml>
+        '''
+        url = '/interface/{0}'.format(self.token)
+        url = add_url_params(url, params)
+        resp = self.client.post(url, data=post_xml)
+        self.assertEqual(resp.status_code, 200)
+        self.assertNotEqual(resp.data, 'error')
+        print 'key ---->'
         print resp.data

@@ -1,4 +1,5 @@
 Keys:
+- 'fuck'
 - 'fucks'
 - 'fuckoff'
 - 'fuck me'
