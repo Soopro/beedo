@@ -4,7 +4,7 @@ Keys:
 - 'fuck me'
 
 Text: ''
-Items:
+Messages:
 - title: Hahahahhaa
   description: ''
   picurl: 'http://img2.sucaifengbao.com/813/813b_109_XVTb.jpg'

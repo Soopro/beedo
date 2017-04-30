@@ -61,7 +61,7 @@ def receive(token):
 
     # find response
     response = get_response(trigger)
-    print response
+
     # first round find response contents
     response_msg = _make_response_msg(response, msg, trigger)
 

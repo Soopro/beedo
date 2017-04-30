@@ -21,6 +21,7 @@ def load_config(app, config_name='config.py'):
 
 
 def load_files(app):
+    print '----------- Load Files -----------'
     content_dir = app.config.get('CONTENT_DIR')
     content_ext = app.config.get('CONTENT_FILE_EXT')
 
@@ -38,7 +39,9 @@ def load_files(app):
         if relative_path.startswith('_'):
             print '***', f
             continue
-        print '-->', f
+
+        file_id = os.path.splitext(os.path.basename(f))[0]
+        print '-->', f, '=>', file_id
         with open(f, 'r') as fh:
             meta_string = fh.read().decode('utf-8')
         try:
@@ -47,23 +50,28 @@ def load_files(app):
             e.current_file = f
             raise e
 
-        file_id = f.replace(content_dir + '/', '', 1).strip('/')
-        items = [_prase_news_item(item) for item in meta.pop('items', [])]
+        items = [_prase_news_item(item) for item in meta.pop('messages', [])]
+        type = meta.pop('type', None)
+        if not type:
+            type = 'news' if items else 'text'
+
         file_data.update({
             file_id: {
                 'keys': meta.pop('keys', []),
+                'type': type,
                 'status': meta.pop('status', 1),
                 'text': meta.pop('text', u''),
-                'news': items[:8],  # max 8 entries
+                'messages': items[:8],  # max 8 entries
             }
         })
 
-    print '<-- Data Loaded -->'
+    print '\n'
 
     return file_data
 
 
 def load_keys(file_data):
+    print '----------- Load Keys -----------'
     keys_data = {}
     for k, v in file_data.iteritems():
         for key in v.get('keys', [])[:60]:
@@ -74,7 +82,7 @@ def load_keys(file_data):
                 continue
             print '-->', key
             keys_data.update({key: k})
-    print '<-- Keywords Loaded -->'
+    print '\n'
     return keys_data
 
 

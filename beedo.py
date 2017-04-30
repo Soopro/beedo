@@ -48,8 +48,8 @@ if __name__ == '__main__':
     host = app.config.get('HOST')
     port = app.config.get('PORT')
 
-    print "-------------------------------------------------------"
+    print '-------------------------------------------------------'
     print 'Beedo: {}'.format(app.version)
-    print "-------------------------------------------------------"
+    print '-------------------------------------------------------'
 
     app.run(host=host, port=port, debug=True, threaded=True)
