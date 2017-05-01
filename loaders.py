@@ -51,14 +51,14 @@ def load_files(app):
             raise e
 
         items = [_prase_news_item(item) for item in meta.pop('messages', [])]
-        type = meta.pop('type', None)
-        if not type:
-            type = 'news' if items else 'text'
+        _type = meta.pop('type', None)
+        if not _type:
+            _type = 'news' if items else 'text'
 
         file_data.update({
             file_id: {
                 'keys': meta.pop('keys', []),
-                'type': type,
+                'type': _type,
                 'status': meta.pop('status', 1),
                 'text': meta.pop('text', u''),
                 'messages': items[:8],  # max 8 entries

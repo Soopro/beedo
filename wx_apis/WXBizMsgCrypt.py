@@ -212,7 +212,7 @@ class WXBizMsgCrypt(object):
         # @param sTimeStamp: url args timestampe or custom made or None
         # @param sNonce: url args nonce or custom made
         # sEncryptMsg: encrypted 'msg_signature, timestamp, nonce, encrypt'
-        # return: Success -> 0. sEncryptMsg, faild return 'None'
+        # return: Success -> 0. sEncryptMsg, failed return 'None'
         pc = Prpcrypt(self.key)
         ret, encrypt = pc.encrypt(sReplyMsg, self.appid)
         if ret != 0:
