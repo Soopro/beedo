@@ -10,8 +10,8 @@ def load_config(app, config_name='config.py'):
     app.config.setdefault('DEBUG', False)
     app.config.setdefault('HOST', '0.0.0.0')
     app.config.setdefault('PORT', 5500)
-    app.config.setdefault('CONTENT_DIR', 'content')
-    app.config.setdefault('CONTENT_FILE_EXT', '.md')
+    app.config.setdefault('DATA_DIR', 'content')
+    app.config.setdefault('DATA_FILE_EXT', '.md')
 
     app.config.setdefault('WX_TOKEN', u'token')
     app.config.setdefault('APP_ID', u'')
@@ -22,8 +22,8 @@ def load_config(app, config_name='config.py'):
 
 def load_files(app):
     print '----------- Load Files -----------'
-    content_dir = app.config.get('CONTENT_DIR')
-    content_ext = app.config.get('CONTENT_FILE_EXT')
+    content_dir = app.config.get('DATA_DIR')
+    content_ext = app.config.get('DATA_FILE_EXT')
 
     all_files = []
     for root, directory, files in os.walk(content_dir):

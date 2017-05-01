@@ -1,0 +1,49 @@
+*.cache
+*.py[co]
+peon.json
+.idea
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+
+
+#Mr Developer
+.mr.developer.cfg
+
+.DS_Store
+
+
+*.db
+*.sublime-project
+*.sublime-workspace
+.tags
+.tags_sorted_by_file
+
+pkg/
+appAuth
+conf.json
+linux-amd64/
+*.conf
+*.log
+
+
+# Data
+data
+

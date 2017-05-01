@@ -6,7 +6,7 @@ DEBUG = True
 HOST = '0.0.0.0'
 PORT = 6002
 
-CONTENT_DIR = 'content'
+DATA_DIR = 'data'
 
 # WX config
 TOKEN = u'token'
