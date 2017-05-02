@@ -106,7 +106,7 @@ class WxNewsResponseTmpl(WxResponseTmpl):
             item_str_list = [self.tmpl_item % (
                              unescape(item['title']),
                              unescape(item['content']),
-                             item['pic_url'],
+                             item['picurl'],
                              item['url']
                              ) for item in self.items]
 
