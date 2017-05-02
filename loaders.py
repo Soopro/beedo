@@ -10,6 +10,8 @@ def load_config(app, config_name='config.py'):
     app.config.setdefault('DEBUG', False)
     app.config.setdefault('HOST', '0.0.0.0')
     app.config.setdefault('PORT', 5500)
+
+    app.config.setdefault('LOGS_DIR', 'logs')
     app.config.setdefault('DATA_DIR', 'content')
     app.config.setdefault('DATA_FILE_EXT', '.md')
 

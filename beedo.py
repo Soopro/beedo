@@ -13,15 +13,16 @@ from blueprints import register_blueprints
 __version_info__ = ('0', '0', '1')
 __version__ = '.'.join(__version_info__)
 
-
 # create app
 app = Flask(__name__)
 app.version = __version__
 
 load_config(app)
 
-# make importable for plugin folder
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+# create logs folder
+logs_folder = app.config['LOGS_DIR']
+if not os.path.isdir(logs_folder):
+    os.makedirs(logs_folder)
 
 # init app
 app.debug = app.config.get('DEBUG', True)
