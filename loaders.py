@@ -70,18 +70,28 @@ def load_files(app):
     return file_data
 
 
-def load_keys(file_data):
+def load_keys(app, file_data):
     print '----------- Load Keys -----------'
     keys_data = {}
-    for k, v in file_data.iteritems():
-        for key in v.get('keys', [])[:60]:
-            if not isinstance(key, basestring) or key in keys_data:
-                print 'Conflict ------------>'
-                print key, ': ', keys_data.get(key)
-                print '<---------------------'
+    conflicts = []
+
+    def _log_conflicts(key, _id, another_id):
+        conflicts.append('{}: {} >>> {}'.format(key, _id, another_id))
+
+    for _id, f in file_data.iteritems():
+        for key in f.get('keys', [])[:60]:
+            if not key and _id not in app.config['STATIC_FILENAMES']:
+                _log_conflicts(key, _id, keys_data.get(key))
                 continue
-            print '-->', key
-            keys_data.update({key: k})
+            if not isinstance(key, basestring) or key in keys_data:
+                _log_conflicts(key, _id, keys_data.get(key))
+            else:
+                print '-->', key
+                keys_data.update({key: _id})
+    print 'Conflicts ------------>'
+    for entry in conflicts:
+        print entry
+    print '<---------------------'
     print '\n'
     return keys_data
 
@@ -97,12 +107,12 @@ def _prase_news_item(item):
 
 
 def _parse_file_meta(meta_string):
-    def convert_data(x):
+    def convert_data_decode(x):
         if isinstance(x, dict):
-            return dict((k.lower(), convert_data(v))
+            return dict((k.lower(), convert_data_decode(v))
                         for k, v in x.iteritems())
         elif isinstance(x, list):
-            return list([convert_data(i) for i in x])
+            return list([convert_data_decode(i) for i in x])
         elif isinstance(x, str):
             return x.decode('utf-8')
         elif isinstance(x, (unicode, int, float, bool)) or x is None:
@@ -115,5 +125,5 @@ def _parse_file_meta(meta_string):
                 pass
         return x
     yaml_data = yaml.safe_load(meta_string)
-    headers = convert_data(yaml_data)
+    headers = convert_data_decode(yaml_data)
     return headers

@@ -35,7 +35,7 @@ register_blueprints(app)
 # data
 DATA = dict()
 DATA['files'] = load_files(app)
-DATA['keys'] = load_keys(DATA['files'])
+DATA['keys'] = load_keys(app, DATA['files'])
 
 
 @app.before_request

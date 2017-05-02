@@ -45,7 +45,6 @@ class InterfaceTester(BasicTester):
                                         self.nonce),
             'timestamp': self.timestamp,
             'nonce': self.nonce,
-            'echostr': u'test-check',
         }
         post_xml = '''
         <xml>
@@ -53,7 +52,7 @@ class InterfaceTester(BasicTester):
         <FromUserName><![CDATA[fromUser]]></FromUserName>
         <CreateTime>1348831860</CreateTime>
         <MsgType><![CDATA[text]]></MsgType>
-        <Content><![CDATA[testsearch]]></Content>
+        <Content><![CDATA[default_search]]></Content>
         <MsgId>1234567890123456</MsgId>
         </xml>
         '''
@@ -72,7 +71,6 @@ class InterfaceTester(BasicTester):
                                         self.nonce),
             'timestamp': self.timestamp,
             'nonce': self.nonce,
-            'echostr': u'test-check',
         }
         post_xml = '''
         <xml>
@@ -80,7 +78,7 @@ class InterfaceTester(BasicTester):
         <FromUserName><![CDATA[fromUser]]></FromUserName>
         <CreateTime>1348831860</CreateTime>
         <MsgType><![CDATA[text]]></MsgType>
-        <Content><![CDATA[fuck]]></Content>
+        <Content><![CDATA[等着你]]></Content>
         <MsgId>1234567890123456</MsgId>
         </xml>
         '''

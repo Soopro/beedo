@@ -2,6 +2,8 @@
 from __future__ import absolute_import
 
 import argparse
+import os
+
 from bridges import wp
 
 
@@ -20,7 +22,7 @@ if __name__ == '__main__':
                         help='Use Wordpress data source.')
 
     args, unknown = parser.parse_known_args()
-
+    if not os.path.isfile(args.path):
+        raise Exception('')
     if args.wp:
-        print 'path', args.path
         wp.load_json_data(args.path)

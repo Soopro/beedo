@@ -5,6 +5,6 @@ from .controllers import *
 
 urlpatterns = [
     # interface
-    ('/interface/<token>', check, 'GET'),
-    ('/interface/<token>', receive, 'POST'),
+    ('/<token>', check, 'GET'),
+    ('/<token>', receive, 'POST'),
 ]

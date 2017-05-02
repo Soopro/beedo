@@ -1,5 +1,5 @@
 *.cache
-*.py[co]
+*.py[odc]
 peon.json
 .idea
 

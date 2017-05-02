@@ -20,3 +20,4 @@ ENCODING_AES_KEY = u''
 
 # defaults
 DEFAULT_MESSAGE = u'...'
+STATIC_FILENAMES = ['subscribe', 'default']
