@@ -83,7 +83,7 @@ class WxNewsResponseTmpl(WxResponseTmpl):
         self.items = [{
             'title': item.get('title') or u'',
             'content': item.get('content') or u'',
-            'pic_url': item.get('pic_url') or u'',
+            'picurl': item.get('picurl') or u'',
             'url': item.get('url') or u'',
         } for item in items][:self.MAX_ITEMS]
 
@@ -99,7 +99,7 @@ class WxNewsResponseTmpl(WxResponseTmpl):
                 result.append({
                     'title': unescape(item['title']),
                     'description': unescape(item['content']),
-                    'picurl': item['pic_url'],  # yes the key it's picurl.
+                    'picurl': item['picurl'],
                     'url': item['url']
                 })
         else:
