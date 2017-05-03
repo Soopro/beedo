@@ -169,12 +169,10 @@ https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-using-
 
 1. `mkdir /var/www` 创建 www 目录，
 2. `cd /var/www`
-3. 从github上拉源
-    1. cleon beedo 项目
-
-      `git clone git@github.com:Soopro/beedo.git`
-      `cd beedo`
-      `git pull origin master`
+3. 从github上拉源，cleon beedo 项目
+  `git clone git@github.com:Soopro/beedo.git`
+  `cd beedo`
+  `git pull origin master`
 
 
 
