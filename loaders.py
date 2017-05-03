@@ -44,13 +44,19 @@ def load_files(app):
 
         file_id = os.path.splitext(os.path.basename(f))[0]
         print '-->', f, '=>', file_id
-        with open(f, 'r') as fh:
-            meta_string = fh.read().decode('utf-8')
+        try:
+            with open(f, 'r') as fh:
+                meta_string = fh.read().decode('utf-8')
+        except Exception as e:
+            e.current_file = f
+            app.logger.error(e)
+            continue
         try:
             meta = _parse_file_meta(meta_string)
         except Exception as e:
             e.current_file = f
-            raise e
+            app.logger.error(e)
+            continue
 
         items = [_prase_news_item(item) for item in meta.pop('messages', [])]
         _type = meta.pop('type', None)
