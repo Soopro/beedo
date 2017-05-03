@@ -3,14 +3,14 @@ from __future__ import absolute_import
 
 import os
 
-from flask import Flask, current_app, request, g
+from flask import Flask, g
 from flask.json import JSONEncoder
 
 from loaders import load_config, load_files, load_keys
 from blueprints import register_blueprints
 
 
-__version_info__ = ('0', '0', '1')
+__version_info__ = ('0', '1', '1')
 __version__ = '.'.join(__version_info__)
 
 # create app
