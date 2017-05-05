@@ -45,8 +45,8 @@ def load_json_data(path):
             if not isinstance(msg, dict):
                 msg = json.loads(msg)
             files[_id]['messages'].append({
-                'title': msg.get('title', u''),
-                'description': msg.get('des', u''),
+                'title': msg.get('title', u'').replace('+', ' '),
+                'description': msg.get('des', u'').replace('+', ' '),
                 'picurl': msg.get('pic', u''),
                 'url': msg.get('url', u''),
             })
