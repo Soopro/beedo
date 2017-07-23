@@ -16,3 +16,7 @@ def get_response(trigger):
     if not response:
         response = g.files.get('default')
     return response
+
+
+def get_append_resp():
+    return g.files.get('appends')

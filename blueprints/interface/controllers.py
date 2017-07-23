@@ -7,7 +7,7 @@ from wx_apis.crypt import WechatCrypt
 from wx_apis.receive import wx_request_validate, wx_parse_xml
 from wx_apis.response_tmpl import (WxTextResponseTmpl,
                                    WxNewsResponseTmpl)
-from .helpers import get_response
+from .helpers import get_response, get_append_resp
 
 
 def check(token):
@@ -83,14 +83,19 @@ def _make_response_msg(resp, msg, trigger, default=None):
         return ''
 
     resp_instance = None
+    append_resp = get_append_resp()
+
     if resp['type'] == 'text':
-        resp_instance = WxTextResponseTmpl(to_user,
-                                           from_user,
-                                           resp['text'])
+        resp_text = resp['text']
+        if append_resp:
+            resp_text = u''.format(resp['text'], append_resp['text'])
+        resp_instance = WxTextResponseTmpl(to_user, from_user, resp_text)
     elif resp['type'] == 'news':
-        resp_instance = WxNewsResponseTmpl(to_user,
-                                           from_user,
-                                           resp['messages'])
+        resp_msgs = resp['messages']
+        if append_resp:
+            resp_msgs = resp_msgs + append_resp['messages']
+        resp_instance = WxNewsResponseTmpl(to_user, from_user, resp_msgs)
+
     if resp_instance:
         msg = resp_instance.render()
     else:

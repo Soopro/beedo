@@ -39,7 +39,7 @@ class WxTextResponseTmpl(WxResponseTmpl):
                 'touser': self.to_user,
                 'msgtype': 'text',
                 'text': {
-                    'content': self.content
+                    'content': self.content[:600]
                 }
             }
         else:
