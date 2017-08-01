@@ -7,29 +7,27 @@ from functools import cmp_to_key
 
 import re
 import time
+import uuid
 import hashlib
 import urllib
 import urlparse
 import hmac
 
 
-def route_inject(app_or_blueprint, url_patterns):
-    for pattern in url_patterns:
-        options = pattern[3] if len(pattern) > 3 else {}
-        app_or_blueprint.add_url_rule(pattern[0],
-                                      view_func=pattern[1],
-                                      methods=pattern[2].split(),
-                                      **options)
+def _slug_not_startswith_num(slug):
+    if slug[:1] and slug[:1].isdigit():
+        slug = u's-{}'.format(slug)
+    return slug
 
 
-def process_slug(value, ensure=True):
+def process_slug(value, autofill=True):
     try:
         slug = unicode(slugify(value))
     except Exception:
         slug = u''
-    if not slug and ensure:
-        slug = unicode(repr(time.time())).replace('.', '-')
-    return slug
+    if not slug and autofill:
+        slug = unicode(uuid.uuid4().hex[:6])
+    return _slug_not_startswith_num(slug)
 
 
 def now(dig=10):

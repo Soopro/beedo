@@ -6,7 +6,7 @@ import os
 from flask import Flask, g
 from flask.json import JSONEncoder
 
-from loaders import load_config, load_files, load_keys
+from loaders import load_config, load_files, load_ids, load_keys
 from blueprints import register_blueprints
 
 

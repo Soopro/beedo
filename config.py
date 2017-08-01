@@ -20,4 +20,8 @@ ENCODING_AES_KEY = u''
 
 # defaults
 DEFAULT_MESSAGE = u'...'
-STATIC_FILENAMES = ['subscribe', 'default', 'appends']
+STATIC_SLUGS = ('subscribe', 'default', 'appends')
+
+# security
+SECRET_KEY = 'ai!ovcz>8_^Q]}7|WZsy'
+IDENTITY = 'beedo1985'

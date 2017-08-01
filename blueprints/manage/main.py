@@ -5,7 +5,7 @@ from flask import Blueprint, current_app, make_response
 import traceback
 
 
-bp_name = 'interface'
+bp_name = 'response'
 
 blueprint = Blueprint(bp_name, __name__)
 

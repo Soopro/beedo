@@ -8,8 +8,10 @@ from wx_apis.receive import wx_request_validate, wx_parse_xml
 from wx_apis.response_tmpl import (WxTextResponseTmpl,
                                    WxNewsResponseTmpl)
 from .helpers import get_response, get_append_resp
+from .main import blueprint
 
 
+@blueprint.route('/<token>')
 def check(token):
     wx_token = current_app.config['TOKEN']
     if not wx_request_validate(wx_token) or wx_token != token:
@@ -17,6 +19,7 @@ def check(token):
     return request.args.get('echostr', '')
 
 
+@blueprint.route('/<token>', methods=['POST'])
 def receive(token):
     wx_token = current_app.config['TOKEN']
     wx_appid = current_app.config['APP_ID']

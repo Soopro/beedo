@@ -15,15 +15,8 @@ def get_response(trigger):
             response = None
     if not response:
         response = g.files.get('default')
-    if response.get('status'):
-        return response
-    else:
-        return None
+    return response
 
 
 def get_append_resp():
-    appends = g.files.get('appends')
-    if appends.get('status'):
-        return appends
-    else:
-        return None
+    return g.files.get('appends')
