@@ -40,6 +40,13 @@ def logout():
 @login_required
 def dashboard():
     count = len(g.files)
+    return render_template('dashboard.html', count=count)
+
+
+# entry
+@blueprint.route('/entries')
+@login_required
+def entries():
     entries = []
     statics = []
     for f in g.files:
@@ -48,8 +55,7 @@ def dashboard():
         else:
             entries.append(f)
     entries = sorted(entries, key=lambda k: k['slug'])
-    return render_template('dashboard.html', count=count,
-                           entries=entries, statics=statics)
+    return render_template('entries.html', entries=entries, statics=statics)
 
 
 @blueprint.route('/entry')
@@ -63,36 +69,37 @@ def entry(slug=None):
 @blueprint.route('/entry', methods=['POST'])
 @login_required
 def add_entry():
-    slug = request.form['slug']
-    rtype = request.form['rtype']
+    fname = request.form['filename']
+    rtype = request.form['type']
     keys = request.form['keys']
     text = request.form.get('text', u'')
     status = request.form.get('status', 0)
 
-    if g.files.get(slug):
+    _id = '.md'.format(process_slug(fname))
+    if g.files.get(_id):
         raise Exception('Entry duplicated.')
 
     entry = {
-        'slug': process_slug(slug),
+        '_id': _id,
         'type': rtype,
         'keys': _parse_input_keys(keys),
         'status': status,
         'text': text,
         'messages': [],
     }
-    return_url = url_for('.entry', slug=entry['slug'])
+    return_url = url_for('.entry', _id=entry['_id'])
     return redirect(return_url)
 
 
-@blueprint.route('/entry/<slug>', methods=['POST'])
+@blueprint.route('/entry/<_id>', methods=['POST'])
 @login_required
-def update_entry(slug):
-    rtype = request.form['rtype']
+def update_entry(_id):
+    rtype = request.form['type']
     keys = request.form['keys']
     text = request.form.get('text', u'')
     status = request.form.get('status', 0)
 
-    entry = g.files.get(slug)
+    entry = g.files.get(_id)
     if not entry:
         raise Exception('Entry not found.')
 
@@ -101,38 +108,62 @@ def update_entry(slug):
     entry['status'] = status
     entry['text'] = text
 
-    return_url = url_for('.entry', slug=entry['slug'])
+    return_url = url_for('.entry', _id=entry['_id'])
     return redirect(return_url)
 
 
-@blueprint.route('/entry/<slug>/message', methods=['POST'])
+@blueprint.route('/entry/<_id>/message', methods=['POST'])
 @login_required
-def add_entry_message(slug):
+def add_entry_message(_id):
     title = request.form.get('title', u'')
     description = request.form.get('description', u'')
     picurl = request.form.get('picurl', u'')
     url = request.form.get('url', u'')
-    pos = request.form.get('pos', u'')
 
-    entry = g.files.get(slug)
+    entry = g.files.get(_id)
     if not entry:
         raise Exception('Entry not found.')
 
-    entry['messages'].insert(parse_int(pos), {
+    entry['messages'].append({
         'title': title,
         'description': description,
         'picurl': picurl,
         'url': url
     })
 
-    return_url = url_for('.entry', slug=entry['slug'])
+    return_url = url_for('.entry', _id=entry['_id'])
     return redirect(return_url)
 
 
-@blueprint.route('/entry/<slug>/message/<idx>/del')
+@blueprint.route('/entry/<_id>/message/<idx>', methods=['POST'])
 @login_required
-def del_entry_message(slug, idx):
-    entry = g.files.get(slug)
+def edit_entry_message(_id, idx):
+    title = request.form.get('title', u'')
+    description = request.form.get('description', u'')
+    picurl = request.form.get('picurl', u'')
+    url = request.form.get('url', u'')
+
+    entry = g.files.get(_id)
+    if not entry:
+        raise Exception('Entry not found.')
+    try:
+        entry['messages'][idx] = {
+            'title': title,
+            'description': description,
+            'picurl': picurl,
+            'url': url
+        }
+    except IndexError:
+        raise Exception('Message index out of range.')
+
+    return_url = url_for('.entry', _id=entry['_id'])
+    return redirect(return_url)
+
+
+@blueprint.route('/entry/<_id>/message/<idx>/del')
+@login_required
+def del_entry_message(_id, idx):
+    entry = g.files.get(_id)
     if not entry:
         raise Exception('Entry not found.')
     try:
@@ -140,14 +171,14 @@ def del_entry_message(slug, idx):
     except IndexError:
         raise Exception('Message index out of range.')
 
-    return_url = url_for('.entry', slug=entry['slug'])
+    return_url = url_for('.entry', _id=entry['_id'])
     return redirect(return_url)
 
 
-@blueprint.route('/entry/<slug>/remove')
+@blueprint.route('/entry/<_id>/remove')
 @login_required
-def remove_entry(slug):
-    entry = g.files.pop(slug, None)
+def remove_entry(_id):
+    entry = g.files.pop(_id, None)
     if not entry:
         raise Exception('Entry not found.')
     return_url = url_for('.entries')

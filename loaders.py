@@ -66,7 +66,7 @@ def load_files(app):
 
         file_data.update({
             file_id: {
-                'slug': file_id,
+                '_id': file_id,
                 'keys': meta.pop('keys', []),
                 'type': _type,
                 'status': meta.pop('status', 1),
