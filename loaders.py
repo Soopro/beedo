@@ -3,6 +3,7 @@ from __future__ import absolute_import
 
 import os
 import yaml
+from models import Entry
 
 
 def load_config(app, config_name='config.py'):
@@ -65,14 +66,14 @@ def load_files(app):
             _type = 'news' if items else 'text'
 
         file_data.update({
-            file_id: {
+            file_id: Entry({
                 '_id': file_id,
                 'keys': meta.pop('keys', []),
                 'type': _type,
                 'status': meta.pop('status', 1),
                 'text': meta.pop('text', u''),
                 'messages': items[:8],  # max 8 entries
-            }
+            }, f)
         })
         file_ids.append(file_id)
 

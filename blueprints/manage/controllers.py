@@ -4,7 +4,8 @@ from __future__ import absolute_import
 from flask import (current_app, g, session, redirect, url_for, request,
                    flash, render_template)
 
-from utils.misc import hmac_sha, process_slug, parse_int
+from models import Entry
+from utils.misc import hmac_sha, process_slug
 from decorators import login_required
 from .main import blueprint
 
@@ -79,14 +80,16 @@ def add_entry():
     if g.files.get(_id):
         raise Exception('Entry duplicated.')
 
-    entry = {
+    entry = Entry({
         '_id': _id,
         'type': rtype,
         'keys': _parse_input_keys(keys),
         'status': status,
         'text': text,
         'messages': [],
-    }
+    })
+    entry.save()
+
     return_url = url_for('.entry', _id=entry['_id'])
     return redirect(return_url)
 
@@ -107,6 +110,7 @@ def update_entry(_id):
     entry['keys'] = _parse_input_keys(keys)
     entry['status'] = status
     entry['text'] = text
+    entry.save()
 
     return_url = url_for('.entry', _id=entry['_id'])
     return redirect(return_url)
@@ -123,6 +127,8 @@ def add_entry_message(_id):
     entry = g.files.get(_id)
     if not entry:
         raise Exception('Entry not found.')
+    if len(entry['messages']) >= 8:
+        raise Exception('Too many messages.')
 
     entry['messages'].append({
         'title': title,
@@ -130,6 +136,7 @@ def add_entry_message(_id):
         'picurl': picurl,
         'url': url
     })
+    entry.save()
 
     return_url = url_for('.entry', _id=entry['_id'])
     return redirect(return_url)
@@ -156,6 +163,8 @@ def edit_entry_message(_id, idx):
     except IndexError:
         raise Exception('Message index out of range.')
 
+    entry.save()
+
     return_url = url_for('.entry', _id=entry['_id'])
     return redirect(return_url)
 
@@ -171,6 +180,8 @@ def del_entry_message(_id, idx):
     except IndexError:
         raise Exception('Message index out of range.')
 
+    entry.save()
+
     return_url = url_for('.entry', _id=entry['_id'])
     return redirect(return_url)
 
@@ -181,6 +192,8 @@ def remove_entry(_id):
     entry = g.files.pop(_id, None)
     if not entry:
         raise Exception('Entry not found.')
+    entry.delete()
+
     return_url = url_for('.entries')
     return redirect(return_url)
 
