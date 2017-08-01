@@ -68,7 +68,7 @@ def load_files(app):
         file_data.update({
             file_id: Entry({
                 '_id': file_id,
-                'keys': meta.pop('keys', []),
+                'keywords': meta.pop('keywords', meta.pop('keys', [])),
                 'type': _type,
                 'status': meta.pop('status', 1),
                 'text': meta.pop('text', u''),
@@ -87,19 +87,20 @@ def load_keys(app, file_data):
     keys_data = {}
     conflicts = []
 
-    def _log_conflicts(key, slug, another_id):
-        conflicts.append('{}: {} >>> {}'.format(key, slug, another_id))
+    def _log_conflicts(key, fname, another_id):
+        conflicts.append('{}: {} >>> {}'.format(key, fname, another_id))
 
-    for slug, f in file_data.iteritems():
-        for key in f.get('keys', [])[:60]:
-            if not key and slug not in app.config['STATIC_SLUGS']:
-                _log_conflicts(key, slug, keys_data.get(key))
+    for fname, f in file_data.iteritems():
+        for key in f.get('keywords', [])[:60]:
+            if not key and fname not in app.config['STATIC_FILENAME']:
+                _log_conflicts(key, fname, keys_data.get(key))
                 continue
             if not isinstance(key, basestring) or key in keys_data:
-                _log_conflicts(key, slug, keys_data.get(key))
+                _log_conflicts(key, fname, keys_data.get(key))
             else:
                 print '-->', key
-                keys_data.update({key: slug})
+                keys_data.update({key: fname})
+
     print 'Conflicts ------------>'
     for entry in conflicts:
         print entry

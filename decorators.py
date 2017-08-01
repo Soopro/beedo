@@ -12,7 +12,7 @@ def login_required(f):
         secret_key = current_app.secret_key
         identity = current_app.config['IDENTITY']
         if not session.get('identity'):
-            return redirect(url_for('manage.login'))
+            return redirect(url_for('manage.auth'))
         elif session['identity'] != hmac_sha(secret_key, identity):
             session.clear()
             raise Exception(u'Session has expired. Please login again.')

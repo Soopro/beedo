@@ -22,7 +22,7 @@ def load_json_data(path):
         _id = data['post_id']
         if _id not in files:
             files[_id] = {
-                'keys': [],
+                'keywords': [],
                 'type': u'',
                 'status': 1,
                 'text': u'',

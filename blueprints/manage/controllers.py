@@ -20,7 +20,7 @@ def auth():
 
 @blueprint.route('/login', methods=['POST'])
 def login():
-    identity = request.args['identity']
+    identity = request.form['identity']
     if identity != current_app.config['IDENTITY']:
         flash('Invalid identity.', 'error')
         return redirect(url_for('.auth'))
@@ -50,20 +50,20 @@ def dashboard():
 def entries():
     entries = []
     statics = []
-    for f in g.files:
-        if f['slug'] in current_app.config['STATIC_SLUGS']:
-            statics.append(f)
+    for k, v in g.files.iteritems():
+        if k in current_app.config['STATIC_FILENAME']:
+            statics.append(v)
         else:
-            entries.append(f)
-    entries = sorted(entries, key=lambda k: k['slug'])
+            entries.append(v)
+    entries = sorted(entries, key=lambda k: k['_id'])
     return render_template('entries.html', entries=entries, statics=statics)
 
 
 @blueprint.route('/entry')
-@blueprint.route('/entry/<slug>')
+@blueprint.route('/entry/<_id>')
 @login_required
-def entry(slug=None):
-    entry = g.files.get(slug, {})
+def entry(_id=None):
+    entry = g.files.get(_id, {})
     return render_template('entry.html', entry=entry)
 
 
@@ -72,7 +72,7 @@ def entry(slug=None):
 def add_entry():
     fname = request.form['filename']
     rtype = request.form['type']
-    keys = request.form['keys']
+    keys = request.form['keywords']
     text = request.form.get('text', u'')
     status = request.form.get('status', 0)
 
@@ -83,7 +83,7 @@ def add_entry():
     entry = Entry({
         '_id': _id,
         'type': rtype,
-        'keys': _parse_input_keys(keys),
+        'keywords': _parse_input_keys(keys),
         'status': status,
         'text': text,
         'messages': [],
@@ -98,7 +98,7 @@ def add_entry():
 @login_required
 def update_entry(_id):
     rtype = request.form['type']
-    keys = request.form['keys']
+    keys = request.form['keywords']
     text = request.form.get('text', u'')
     status = request.form.get('status', 0)
 
@@ -107,7 +107,7 @@ def update_entry(_id):
         raise Exception('Entry not found.')
 
     entry['type'] = rtype
-    entry['keys'] = _parse_input_keys(keys)
+    entry['keywords'] = _parse_input_keys(keys)
     entry['status'] = status
     entry['text'] = text
     entry.save()

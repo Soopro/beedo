@@ -1,0 +1,20 @@
+{% extends "manage.html" %}
+{% set current_nav = 'dashbaord' %}
+
+{% block body %}
+<section class="hero is-primary">
+  <div class="hero-body">
+    <header class="container">
+      <h1 class="title is-1">Beedo</h1>
+      <h2 class="subtitle is-6">A WeChat Official Account Tool</h2>
+    </header>
+    <hr>
+    <div class="container">
+      <a class="button is-info is-large"
+         href="{{url_for('.entries')}}">
+        Entries {{count}}
+      </a>
+    </div>
+  </div>
+</section>
+{% endblock %}

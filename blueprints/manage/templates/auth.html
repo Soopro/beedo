@@ -1,0 +1,28 @@
+{% extends "manage.html" %}
+
+{% block nav %}
+{% endblock %}
+
+{% block body %}
+<section class="section is-large">
+  <div class="columns is-centered">
+    <form class="column is-4"
+          action="{{url_for('.login')}}"
+          method="POST">
+      <div class="field has-addons">
+        <div class="control">
+          <input class="input"
+                 name="identity"
+                 placeholder="Identity"
+                 type="text">
+        </div>
+        <div class="control">
+          <button class="button is-primary">
+            Login
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

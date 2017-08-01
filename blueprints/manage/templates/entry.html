@@ -1,0 +1,22 @@
+{% extends "manage.html" %}
+{% set current_nav = 'entry' %}
+
+{% block body %}
+<section class="hero is-primary">
+  <div class="hero-body">
+    <header class="container">
+      <h1 class="title is-1">Entry: {{entry._id}}</h1>
+      <a class="button is-info"
+         href="{{url_for('.entries')}}">
+        Return
+      </a>
+    </header>
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <form class="">
+    </form>
+  </div>
+</section>
+{% endblock %}

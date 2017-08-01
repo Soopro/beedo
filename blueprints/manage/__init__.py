@@ -2,5 +2,4 @@
 from __future__ import absolute_import
 
 from .main import blueprint
-
-bp = blueprint
+from .controllers import *

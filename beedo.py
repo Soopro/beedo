@@ -1,12 +1,13 @@
 # coding=utf-8
 from __future__ import absolute_import
 
-import os
-
-from flask import Flask, g
+from flask import Flask, g, make_response
 from flask.json import JSONEncoder
 
-from loaders import load_config, load_files, load_ids, load_keys
+import os
+import traceback
+
+from loaders import load_config, load_files, load_keys
 from blueprints import register_blueprints
 
 
@@ -43,6 +44,13 @@ DATA['keys'] = load_keys(app, DATA['files'])
 def app_before_request():
     g.keys = DATA['keys']
     g.files = DATA['files']
+
+
+@app.errorhandler(Exception)
+def errorhandler(err):
+    err_msg = '{}\n{}'.format(repr(err), traceback.format_exc())
+    app.logger.error(err_msg)
+    return make_response(repr(err), 500)
 
 
 if __name__ == '__main__':
