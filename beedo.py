@@ -13,7 +13,7 @@ from services.i18n import Translator
 from blueprints import register_blueprints
 
 
-__version_info__ = ('1', '2', '1')
+__version_info__ = ('1', '2', '2')
 __version__ = '.'.join(__version_info__)
 
 # create app
@@ -54,11 +54,13 @@ app.jinja_env.globals.update(_=translator.gettext)
 @app.before_request
 def app_before_request():
     modifications = watch_files_date(app)
+    modified = False
     # check added / modified
     for k, v in modifications.iteritems():
-        modified = app.db['modifications'].get(k)
-        if not modified or modified['modified'] != v['modified']:
-            if not modified:
+        mfile = app.db['modifications'].get(k)
+        if not mfile or mfile['modified'] != v['modified']:
+            modified = True
+            if not mfile:
                 print 'added -->', v['_id']
             else:
                 print 'modified -->', v['_id']
@@ -66,27 +68,19 @@ def app_before_request():
             file_data = load_single_file(k, v['_id'])
             if file_data:
                 app.db['files'][file_id] = file_data
-                for key in file_data['keywords']:
-                    if app.db['keys'].get(key) != file_id:
-                        continue
-                    if file_data.get('status'):
-                        app.db['keys'][key] = file_id
-                    else:
-                        app.db['keys'].pop(key, None)
 
     # check removed
     for k, v in app.db['modifications'].iteritems():
         if k not in modifications:
+            modified = True
             print 'removed -->', v['_id']
             removed = app.db['files'].get(v['_id'])
             if removed:
-                for key in removed['keywords']:
-                    if app.db['keys'].get(key) == removed['_id']:
-                        del app.db['keys'][key]
                 del app.db['files'][v['_id']]
 
     app.db['modifications'] = modifications
-
+    if modified:
+        app.db['keys'] = load_keys(app, app.db['files'])
     g.files = app.db['files']
     g.keys = app.db['keys']
 
