@@ -7,14 +7,14 @@
     <header class="container">
       <h1 class="title is-1">
         {% if entry._id %}
-          {{'Entry: ' + entry._id}}
+          {{_('Entry: ') + entry._id}}
         {% else %}
           {{'New Entry'}}
         {% endif %}
       </h1>
       <a class="button is-info"
          href="{{url_for('.entries')}}">
-        Back
+        {{_('Back')}}
       </a>
     </header>
   </div>
@@ -30,7 +30,7 @@
                       else url_for('.add_entry')}}">
         <div class="field">
           <div class="control">
-            <label class="label">Filename</label>
+            <label class="label">{{_('File name')}}</label>
             <input class="input"
                    name="filename"
                    type="text"
@@ -42,17 +42,17 @@
 
         <div class="field">
           <div class="control">
-            <label class="label">Type</label>
+            <label class="label">{{_('Type')}}</label>
             <div class="select">
               <select name="type"
                       required>
                 <option value="news"
                         {{'selected' if entry.type == 'news'}}>
-                  News
+                  {{_('Graphic message')}}
                 </option>
                 <option value="text"
                         {{'selected' if entry.type == 'text'}}>
-                  Text
+                  {{_('Text message')}}
                 </option>
               </select>
             </div>
@@ -61,9 +61,9 @@
 
         <div class="field">
           <div class="control">
-            <label class="label">Keywords</label>
+            <label class="label">{{_('Keywords')}}</label>
             <textarea class="textarea"
-                      placeholder="Keywords is here, split with `|`."
+                      placeholder="{{_('Keywords is here, split with `|`.')}}"
                       name="keywords"
                       rows="12">{{entry.keywords|join('\n')}}</textarea>
           </div>
@@ -71,10 +71,10 @@
 
         <div class="field">
           <div class="control">
-            <label class="label">Text</label>
+            <label class="label">{{_('Text')}}</label>
             <textarea class="textarea"
                       name="text"
-                      placeholder="Text Message is here"
+                      placeholder="{{_('Text Message is here.')}}"
                       rows="9">{{entry.text}}</textarea>
           </div>
         </div>
@@ -86,14 +86,14 @@
                      value="0"
                      name="status"
                      {{'checked' if entry.status == 0}}>
-              Draft
+              {{_('Draft')}}
             </label>
             <label class="radio">
               <input type="radio"
                      name="status"
                      value="1"
                      {{'checked' if entry.status}}>
-              Publish
+              {{_('Publish')}}
             </label>
           </div>
         </div>
@@ -103,14 +103,14 @@
         <div class="field is-grouped">
           <div class="control">
             <button class="button is-primary is-large">
-              Save
+              {{_('Save')}}
             </button>
           </div>
           {% if entry._id %}
           <div class="control">
             <a class="button is-warning is-large"
                href="{{url_for('.remove_entry', _id=entry._id)}}">
-              Delete
+              {{_('Delete')}}
             </a>
           </div>
           {% endif %}
@@ -126,7 +126,7 @@
                 action="{{url_for('.add_entry_message', _id=entry._id)}}">
             {% set msg = {'title': '', 'description': '',
                           'picurl': '', 'url': ''} %}
-            <h3 class="subtitle">New Message</h3>
+            <h3 class="subtitle">{{_('New Message')}}</h3>
             {% include '_msg.html' with context %}
 
           </form>

@@ -7,6 +7,7 @@ HOST = '0.0.0.0'
 PORT = 6002
 
 DATA_DIR = 'data'
+LOCALE = 'zh'
 
 # WX config
 TOKEN = u'token'

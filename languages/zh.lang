@@ -1,0 +1,136 @@
+[
+  {"Language": "zh"},
+  {
+    "msgid": "A WeChat Official Account Tool",
+    "msgstr": "一个微信公众号管理器"
+  },
+  {
+    "msgid": "Login",
+    "msgstr": "登录"
+  },
+  {
+    "msgid": "Title",
+    "msgstr": "标题"
+  },
+  {
+    "msgid": "Edit",
+    "msgstr": "编辑"
+  },
+  {
+    "msgid": "Back",
+    "msgstr": "返回"
+  },
+  {
+    "msgid": "Entry",
+    "msgstr": "条目"
+  },
+  {
+    "msgid": "Entry: ",
+    "msgstr": "条目："
+  },
+  {
+    "msgid": "Entries",
+    "msgstr": "条目列表"
+  },
+  {
+    "msgid": "New Entry",
+    "msgstr": "新条目"
+  },
+  {
+    "msgid": "NO.",
+    "msgstr": "编号"
+  },
+  {
+    "msgid": "File name",
+    "msgstr": "文件名"
+  },
+  {
+    "msgid": "File name / ID",
+    "msgstr": "文件名 / ID"
+  },
+  {
+    "msgid": "Keywords",
+    "msgstr": "关键字"
+  },
+  {
+    "msgid": "Keywords is here, split with `|`.",
+    "msgstr": "关键字用`|`分割。"
+  },
+  {
+    "msgid": "Action",
+    "msgstr": "操作"
+  },
+  {
+    "msgid": "Type",
+    "msgstr": "类型"
+  },
+  {
+    "msgid": "Graphic message",
+    "msgstr": "图文消息"
+  },
+  {
+    "msgid": "Text message",
+    "msgstr": "文本消息"
+  },
+  {
+    "msgid": "Text",
+    "msgstr": "文本"
+  },
+  {
+    "msgid": "Text Message is here.",
+    "msgstr": "在这里写文本。"
+  },
+
+  {
+    "msgid": "Refresh Keywords",
+    "msgstr": "刷新关键字"
+  },
+  {
+    "msgid": "DESC.",
+    "msgstr": "描述"
+  },
+  {
+    "msgid": "Position",
+    "msgstr": "顺位"
+  },
+  {
+    "msgid": "PicURL",
+    "msgstr": "图片网址"
+  },
+  {
+    "msgid": "URL",
+    "msgstr": "网址"
+  },
+  {
+    "msgid": "Save",
+    "msgstr": "保存"
+  },
+  {
+    "msgid": "Remove",
+    "msgstr": "移除"
+  },
+  {
+    "msgid": "Delete",
+    "msgstr": "删除"
+  },
+  {
+    "msgid": "Draft",
+    "msgstr": "草稿"
+  },
+  {
+    "msgid": "Publish",
+    "msgstr": "发布"
+  },
+  {
+    "msgid": "New Message",
+    "msgstr": "新消息"
+  },
+  {
+    "msgid": "Dashboard",
+    "msgstr": "信息板"
+  },
+  {
+    "msgid": "Exit",
+    "msgstr": "退出"
+  }
+]

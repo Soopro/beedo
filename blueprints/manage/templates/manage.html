@@ -17,15 +17,15 @@
        id="primary-nav-menu">
     <a class="navbar-item {{'is-active' if current_nav == 'dashboard'}}"
        href="{{url_for('.dashboard')}}">
-      Dashboard
+      {{_('Dashboard')}}
     </a>
     <a class="navbar-item {{'is-active' if current_nav == 'entry'}}"
        href="{{url_for('.entries')}}">
-      Entries
+      {{_('Entries')}}
     </a>
     <a class="navbar-item"
        href="{{url_for('.logout')}}">
-      Exit
+      {{_('Exit')}}
     </a>
   </div>
 </nav>

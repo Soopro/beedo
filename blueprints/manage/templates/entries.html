@@ -5,15 +5,15 @@
 <section class="hero is-primary">
   <div class="hero-body">
     <header class="container">
-      <h1 class="title is-1">Entries</h1>
+      <h1 class="title is-1">{{_('Entries')}}</h1>
       <div>
         <a class="button is-info"
            href="{{url_for('.entry')}}">
-          New Entry
+          {{_('New Entry')}}
         </a>
         <a class="button is-light"
            href="{{url_for('.refresh_keys')}}">
-          Refresh Keywords
+          {{_('Refresh Keywords')}}
         </a>
         {% for st_entry in statics %}
         <a class="button is-info is-inverted is-outlined"
@@ -30,10 +30,10 @@
     <table class="table is-striped is-fullwidth">
       <thead>
         <tr>
-          <th><abbr title="No.">No.</abbr></th>
-          <th>File name / ID</th>
-          <th>Keywords</th>
-          <th>Action</th>
+          <th><abbr title="No.">{{_('NO.')}}</abbr></th>
+          <th>{{_('File name / ID')}}</th>
+          <th>{{_('Keywords')}}</th>
+          <th>{{_('Action')}}</th>
         </tr>
       </thead>
       <tbody>
@@ -45,7 +45,7 @@
           <td>
             <a class="button is-info"
                href="{{url_for('.entry', _id=entry._id)}}">
-              Edit
+              {{_('Edit')}}
             </a>
           </td>
         </tr>

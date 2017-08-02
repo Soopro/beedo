@@ -8,10 +8,11 @@ import os
 import traceback
 
 from loaders import load_config, load_files, load_keys
+from services.i18n import Translator
 from blueprints import register_blueprints
 
 
-__version_info__ = ('1', '0', '1')
+__version_info__ = ('1', '1', '0')
 __version__ = '.'.join(__version_info__)
 
 # create app
@@ -39,6 +40,13 @@ register_blueprints(app)
 app.db = dict()
 app.db['files'] = load_files(app)
 app.db['keys'] = load_keys(app, app.db['files'])
+
+
+# languages
+lang_dir = app.config.get('LANGUAGES_DIR')
+locale = app.config.get('LOCALE')
+translator = Translator(locale, lang_dir)
+app.jinja_env.globals.update(_=translator.gettext)
 
 
 @app.before_request

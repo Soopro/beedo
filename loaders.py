@@ -14,7 +14,10 @@ def load_config(app, config_name='config.py'):
 
     app.config.setdefault('LOGS_DIR', 'logs')
     app.config.setdefault('DATA_DIR', 'content')
+    app.config.setdefault('LANGUAGES_DIR', 'languages')
+
     app.config.setdefault('DATA_FILE_EXT', '.md')
+    app.config.setdefault('LOCALE', 'en')
 
     app.config.setdefault('WX_TOKEN', u'token')
     app.config.setdefault('APP_ID', u'')

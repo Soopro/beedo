@@ -6,13 +6,15 @@
   <div class="hero-body">
     <header class="container">
       <h1 class="title is-1">Beedo</h1>
-      <h2 class="subtitle is-6">A WeChat Official Account Tool</h2>
+      <h2 class="subtitle is-6">
+        {{_('A WeChat Official Account Tool')}}
+      </h2>
     </header>
     <hr>
     <div class="container">
       <a class="button is-info is-large"
          href="{{url_for('.entries')}}">
-        Entries {{count}}
+        {{_('Entries')}} {{count}}
       </a>
     </div>
   </div>
