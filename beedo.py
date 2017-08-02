@@ -13,7 +13,7 @@ from services.i18n import Translator
 from blueprints import register_blueprints
 
 
-__version_info__ = ('1', '2', '0')
+__version_info__ = ('1', '2', '1')
 __version__ = '.'.join(__version_info__)
 
 # create app
@@ -67,7 +67,13 @@ def app_before_request():
             if file_data:
                 app.db['files'][file_id] = file_data
                 for key in file_data['keywords']:
-                    app.db['keys'][key] = file_id
+                    if app.db['keys'].get(key) != file_id:
+                        continue
+                    if file_data.get('status'):
+                        app.db['keys'][key] = file_id
+                    else:
+                        app.db['keys'].pop(key, None)
+
     # check removed
     for k, v in app.db['modifications'].iteritems():
         if k not in modifications:
