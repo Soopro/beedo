@@ -11,7 +11,7 @@ from loaders import load_config, load_files, load_keys
 from blueprints import register_blueprints
 
 
-__version_info__ = ('1', '0', '0')
+__version_info__ = ('1', '0', '1')
 __version__ = '.'.join(__version_info__)
 
 # create app
