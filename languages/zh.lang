@@ -53,8 +53,8 @@
     "msgstr": "关键字"
   },
   {
-    "msgid": "Keywords is here, split with `|`.",
-    "msgstr": "关键字用`|`分割。"
+    "msgid": "Keywords is here, one line each",
+    "msgstr": "关键字一行写一个。"
   },
   {
     "msgid": "Action",

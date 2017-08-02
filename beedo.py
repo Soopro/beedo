@@ -12,7 +12,7 @@ from services.i18n import Translator
 from blueprints import register_blueprints
 
 
-__version_info__ = ('1', '1', '0')
+__version_info__ = ('1', '1', '1')
 __version__ = '.'.join(__version_info__)
 
 # create app
