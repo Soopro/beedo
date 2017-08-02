@@ -28,7 +28,6 @@ class WxTextResponseTmpl(WxResponseTmpl):
 
     def __init__(self, to_user, from_user, content, json_mode=False):
         super(WxTextResponseTmpl, self).__init__(to_user, from_user)
-
         self.json_mode = json_mode
         self.content = content or u''
         return

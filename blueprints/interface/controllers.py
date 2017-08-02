@@ -91,7 +91,7 @@ def _make_response_msg(resp, msg, trigger, default=None):
     if resp['type'] == 'text':
         resp_text = resp['text']
         if append_resp:
-            resp_text = u''.format(resp['text'], append_resp['text'])
+            resp_text = u'{}{}'.format(resp['text'], append_resp['text'])
         resp_instance = WxTextResponseTmpl(to_user, from_user, resp_text)
     elif resp['type'] == 'news':
         resp_msgs = resp['messages']

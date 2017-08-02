@@ -78,7 +78,7 @@ class InterfaceTester(BasicTester):
         <FromUserName><![CDATA[fromUser]]></FromUserName>
         <CreateTime>1348831860</CreateTime>
         <MsgType><![CDATA[text]]></MsgType>
-        <Content><![CDATA[等着你]]></Content>
+        <Content><![CDATA[test]]></Content>
         <MsgId>1234567890123456</MsgId>
         </xml>
         '''

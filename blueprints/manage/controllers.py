@@ -248,7 +248,7 @@ def _refresh_keywords(entry):
         conflicts.append('`{}` {} ---> {}'.format(key, _id, another_id))
 
     for _id, f in g.files.iteritems():
-        if _id in static_ids:
+        if _id in static_ids or not f.get('status'):
             continue
         for key in f.get('keywords', [])[:60]:
             if not key or not isinstance(key, basestring):

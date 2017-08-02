@@ -91,7 +91,7 @@ def load_keys(app, file_data):
         conflicts.append('{}: {} >>> {}'.format(key, fname, another_id))
 
     for fname, f in file_data.iteritems():
-        if fname in app.config['STATIC_FILENAME']:
+        if fname in app.config['STATIC_FILENAME'] or not f.get('status'):
             continue
         for key in f.get('keywords', [])[:60]:
             if not key or not isinstance(key, basestring) or key in keys_data:
