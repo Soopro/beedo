@@ -60,6 +60,14 @@ def entries():
     return render_template('entries.html', entries=entries, statics=statics)
 
 
+@blueprint.route('/refresh')
+@login_required
+def refresh_keys():
+    _refresh_keywords(entry)
+    return_url = url_for('.entries')
+    return redirect(return_url)
+
+
 @blueprint.route('/entry')
 @blueprint.route('/entry/<_id>')
 @login_required
@@ -94,7 +102,6 @@ def add_entry():
     entry.save()
 
     g.files[_id] = entry
-    _refresh_keywords(entry)
 
     return_url = url_for('.entry', _id=entry['_id'])
     return redirect(return_url)
@@ -117,8 +124,6 @@ def update_entry(_id):
     entry['status'] = parse_int(status)
     entry['text'] = text
     entry.save()
-
-    _refresh_keywords(entry)
 
     return_url = url_for('.entry', _id=entry['_id'])
     return redirect(return_url)

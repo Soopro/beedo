@@ -11,8 +11,12 @@
            href="{{url_for('.entry')}}">
           New Entry
         </a>
-        {% for st_entry in statics %}
         <a class="button is-light"
+           href="{{url_for('.refresh_keys')}}">
+          Refresh Keywords
+        </a>
+        {% for st_entry in statics %}
+        <a class="button is-info is-inverted is-outlined"
            href="{{url_for('.entry', _id=st_entry._id)}}">
           {{st_entry._id}}
         </a>
