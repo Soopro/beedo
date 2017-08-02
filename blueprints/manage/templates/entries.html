@@ -6,10 +6,18 @@
   <div class="hero-body">
     <header class="container">
       <h1 class="title is-1">Entries</h1>
-      <a class="button is-info"
-         href="{{url_for('.entry')}}">
-        New Entry
-      </a>
+      <div>
+        <a class="button is-info"
+           href="{{url_for('.entry')}}">
+          New Entry
+        </a>
+        {% for st_entry in statics %}
+        <a class="button is-light"
+           href="{{url_for('.entry', _id=st_entry._id)}}">
+          {{st_entry._id}}
+        </a>
+        {% endfor %}
+      </div>
     </header>
   </div>
 </section>

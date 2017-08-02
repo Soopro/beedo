@@ -34,16 +34,17 @@ app.json_encoder = JSONEncoder
 # register blueprints
 register_blueprints(app)
 
+
 # data
-DATA = dict()
-DATA['files'] = load_files(app)
-DATA['keys'] = load_keys(app, DATA['files'])
+app.db = dict()
+app.db['files'] = load_files(app)
+app.db['keys'] = load_keys(app, app.db['files'])
 
 
 @app.before_request
 def app_before_request():
-    g.keys = DATA['keys']
-    g.files = DATA['files']
+    g.files = app.db['files']
+    g.keys = app.db['keys']
 
 
 @app.errorhandler(Exception)

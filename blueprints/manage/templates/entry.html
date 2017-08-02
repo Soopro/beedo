@@ -5,18 +5,145 @@
 <section class="hero is-primary">
   <div class="hero-body">
     <header class="container">
-      <h1 class="title is-1">Entry: {{entry._id}}</h1>
+      <h1 class="title is-1">
+        {% if entry._id %}
+          {{'Entry: ' + entry._id}}
+        {% else %}
+          {{'New Entry'}}
+        {% endif %}
+      </h1>
       <a class="button is-info"
          href="{{url_for('.entries')}}">
-        Return
+        Back
       </a>
     </header>
   </div>
 </section>
+
 <section class="section">
   <div class="container">
-    <form class="">
-    </form>
+    <div class="columns is-multiline">
+      <!-- column -->
+      <form class="column is-6"
+            method="POST"
+            action="{{url_for('.update_entry', _id=entry._id) if entry._id
+                      else url_for('.add_entry')}}">
+        <div class="field">
+          <div class="control">
+            <label class="label">Filename</label>
+            <input class="input"
+                   name="filename"
+                   type="text"
+                   value="{{entry._id}}"
+                   {{'disabled' if entry._id}}
+                   required>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <label class="label">Type</label>
+            <div class="select">
+              <select name="type"
+                      required>
+                <option value="news"
+                        {{'selected' if entry.type == 'news'}}>
+                  News
+                </option>
+                <option value="text"
+                        {{'selected' if entry.type == 'text'}}>
+                  Text
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <label class="label">Keywords</label>
+            <textarea class="textarea"
+                      placeholder="Keywords is here, split with `|`."
+                      name="keywords"
+                      rows="12">{{entry.keywords|join('\n')}}</textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <label class="label">Text</label>
+            <textarea class="textarea"
+                      name="text"
+                      placeholder="Text Message is here"
+                      rows="9">{{entry.text}}</textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <label class="radio">
+              <input type="radio"
+                     value="0"
+                     name="status"
+                     {{'checked' if entry.status == 0}}>
+              Draft
+            </label>
+            <label class="radio">
+              <input type="radio"
+                     name="status"
+                     value="1"
+                     {{'checked' if entry.status}}>
+              Publish
+            </label>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="field is-grouped">
+          <div class="control">
+            <button class="button is-primary is-large">
+              Save
+            </button>
+          </div>
+          {% if entry._id %}
+          <div class="control">
+            <a class="button is-warning is-large"
+               href="{{url_for('.remove_entry', _id=entry._id)}}">
+              Delete
+            </a>
+          </div>
+          {% endif %}
+        </div>
+
+      </form>
+
+      <!-- column -->
+      <div class="column is-5 is-offset-1">
+        {% if entry._id %}
+          <form class="box"
+                method="POST"
+                action="{{url_for('.add_entry_message', _id=entry._id)}}">
+            {% set msg = {'title': '', 'description': '',
+                          'picurl': '', 'url': ''} %}
+            <h3 class="subtitle">New Message</h3>
+            {% include '_msg.html' with context %}
+
+          </form>
+          {% for msg in entry.messages %}
+            <form class="box"
+                method="POST"
+                action="{{url_for('.edit_entry_message',
+                                  _id=entry._id,
+                                  idx=loop.index0)}}">
+            <h3 class="subtitle"># {{loop.index}}</h3>
+            {% include '_msg.html' with context %}
+          </form>
+          {% endfor %}
+        {% endif %}
+
+      </div>
+    </div>
   </div>
 </section>
 {% endblock %}

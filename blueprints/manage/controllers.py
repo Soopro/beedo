@@ -5,9 +5,10 @@ from flask import (current_app, g, session, redirect, url_for, request,
                    flash, render_template)
 
 from models import Entry
-from utils.misc import hmac_sha, process_slug
+from utils.misc import hmac_sha, process_slug, parse_int
 from decorators import login_required
 from .main import blueprint
+from .helpers import make_file_path
 
 
 # auth
@@ -63,7 +64,7 @@ def entries():
 @blueprint.route('/entry/<_id>')
 @login_required
 def entry(_id=None):
-    entry = g.files.get(_id, {})
+    entry = g.files.get(_id, {'status': 1})
     return render_template('entry.html', entry=entry)
 
 
@@ -76,19 +77,24 @@ def add_entry():
     text = request.form.get('text', u'')
     status = request.form.get('status', 0)
 
-    _id = '.md'.format(process_slug(fname))
+    _id = process_slug(fname)
     if g.files.get(_id):
         raise Exception('Entry duplicated.')
+    elif not _id:
+        raise Exception('Entry ID is required.')
 
     entry = Entry({
         '_id': _id,
         'type': rtype,
         'keywords': _parse_input_keys(keys),
-        'status': status,
+        'status': parse_int(status),
         'text': text,
         'messages': [],
-    })
+    }, make_file_path(_id))
     entry.save()
+
+    g.files[_id] = entry
+    _refresh_keywords(entry)
 
     return_url = url_for('.entry', _id=entry['_id'])
     return redirect(return_url)
@@ -107,10 +113,12 @@ def update_entry(_id):
         raise Exception('Entry not found.')
 
     entry['type'] = rtype
-    entry['keywords'] = _parse_input_keys(keys)
-    entry['status'] = status
+    entry['keywords'] = _parse_input_keys(keys, entry['_id'])
+    entry['status'] = parse_int(status)
     entry['text'] = text
     entry.save()
+
+    _refresh_keywords(entry)
 
     return_url = url_for('.entry', _id=entry['_id'])
     return redirect(return_url)
@@ -123,6 +131,10 @@ def add_entry_message(_id):
     description = request.form.get('description', u'')
     picurl = request.form.get('picurl', u'')
     url = request.form.get('url', u'')
+    pos = request.form.get('pos', None)
+
+    if pos:
+        pos = parse_int(pos)
 
     entry = g.files.get(_id)
     if not entry:
@@ -130,12 +142,16 @@ def add_entry_message(_id):
     if len(entry['messages']) >= 8:
         raise Exception('Too many messages.')
 
-    entry['messages'].append({
+    msg = {
         'title': title,
         'description': description,
         'picurl': picurl,
         'url': url
-    })
+    }
+    if isinstance(pos, int):
+        entry['messages'].insert(pos, msg)
+    else:
+        entry['messages'].append(msg)
     entry.save()
 
     return_url = url_for('.entry', _id=entry['_id'])
@@ -149,6 +165,10 @@ def edit_entry_message(_id, idx):
     description = request.form.get('description', u'')
     picurl = request.form.get('picurl', u'')
     url = request.form.get('url', u'')
+    pos = request.form.get('pos', 0)
+
+    pos = parse_int(pos)
+    idx = parse_int(idx)
 
     entry = g.files.get(_id)
     if not entry:
@@ -163,6 +183,9 @@ def edit_entry_message(_id, idx):
     except IndexError:
         raise Exception('Message index out of range.')
 
+    if pos != idx:
+        entry['messages'].insert(pos, entry['messages'].pop(idx))
+
     entry.save()
 
     return_url = url_for('.entry', _id=entry['_id'])
@@ -172,6 +195,8 @@ def edit_entry_message(_id, idx):
 @blueprint.route('/entry/<_id>/message/<idx>/del')
 @login_required
 def del_entry_message(_id, idx):
+    idx = parse_int(idx)
+
     entry = g.files.get(_id)
     if not entry:
         raise Exception('Entry not found.')
@@ -199,6 +224,34 @@ def remove_entry(_id):
 
 
 # helpers
-def _parse_input_keys(keys):
-    keys = keys.split('|')
-    return [k.lower().strip() for k in keys]
+def _parse_input_keys(keys, _id=None):
+    keys = keys.split('\n')
+    keywords = []
+    for k in keys:
+        key = k.lower().strip()
+        if key and key not in keywords:
+            keywords.append(key)
+    return keywords
+
+
+def _refresh_keywords(entry):
+    static_ids = current_app.config['STATIC_FILENAME']
+    keys_data = {}
+    conflicts = []
+
+    def _log_conflicts(key, fname, another_id):
+        conflicts.append('`{}` {} ---> {}'.format(key, _id, another_id))
+
+    for _id, f in g.files.iteritems():
+        if _id in static_ids:
+            continue
+        for key in f.get('keywords', [])[:60]:
+            if not key or not isinstance(key, basestring):
+                continue
+            if key not in keys_data:
+                keys_data[key] = _id
+            else:
+                _log_conflicts(key, _id, keys_data.get(key))
+    current_app.db['keys'] = keys_data
+    for msg in conflicts:
+        flash('Conflicted: {}'.format(msg), 'warning')

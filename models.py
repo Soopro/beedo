@@ -16,7 +16,7 @@ class Entry(dict):
     def save(self):
         _file = self._data_encode(dict(self))
         _file = {k.capitalize(): v for k, v in _file.iteritems()}
-        if os.isfile(self.path):
+        if os.path.isfile(self.path):
             os.remove(self.path)
         with open(self.path, 'w') as yaml_file:
             yaml.safe_dump(_file,
@@ -27,7 +27,7 @@ class Entry(dict):
         return self['_id']
 
     def delete(self):
-        if os.isfile(self.path):
+        if os.path.isfile(self.path):
             os.remove(self.path)
         return self['_id']
 

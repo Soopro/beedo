@@ -1,22 +1,11 @@
 # coding=utf-8
 from __future__ import absolute_import
 
-from flask import g
+from flask import current_app
+import os
 
 
-def get_response(trigger):
-    if trigger['type'] == 'subscribe':
-        response = g.files.get('subscribe')
-    elif trigger['type'] == 'keywords':
-        file_id = g.keys.get(trigger['key'])
-        if file_id:
-            response = g.files.get(file_id)
-        else:
-            response = None
-    if not response:
-        response = g.files.get('default')
-    return response
-
-
-def get_append_resp():
-    return g.files.get('appends')
+def make_file_path(file_id):
+    content_dir = current_app.config.get('DATA_DIR')
+    content_ext = current_app.config.get('DATA_FILE_EXT')
+    return os.path.join(content_dir, u'{}{}'.format(file_id, content_ext))

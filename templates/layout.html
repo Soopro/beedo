@@ -19,7 +19,13 @@
     {% if messages %}
       <section class="section">
       {% for cat, message in messages %}
-        {% set _notify = 'is-danger' if cat == 'error' else 'is-success' %}
+        {% if cat == 'error' %}
+          {% set _notify = 'is-danger' %}
+        {% elif cat == 'warning' %}
+          {% set _notify = 'is-warning' %}
+        {% else %}
+          {% set _notify = 'is-success' %}
+        {% endif %}
         <div class="notification {{_notify}}">
           {{message}}
         </div>
