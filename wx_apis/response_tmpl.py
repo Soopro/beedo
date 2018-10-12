@@ -51,7 +51,7 @@ class WxTextResponseTmpl(WxResponseTmpl):
 
 class WxNewsResponseTmpl(WxResponseTmpl):
 
-    MAX_ITEMS = 8
+    MAX_ITEMS = 1  # fucked by wechat api, they turn max 8 to 1.
 
     tmpl = u'''
     <xml>
